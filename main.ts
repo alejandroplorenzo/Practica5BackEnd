@@ -9,12 +9,14 @@ import { Viaje } from "./resolvers/Viaje.ts";
 import { typeDefs } from "./gql/schema.ts";
 import mongoose from "mongoose";
 
-const MONGO_URL = Deno.env.get("MONGO_URL");
+import { load } from "https://deno.land/std@0.204.0/dotenv/mod.ts";
+const env = await load();
+
+const MONGO_URL = env.MONGO_URL || Deno.env.get("MONGO_URL"); 
 if (!MONGO_URL) {
   throw new Error("Please provide a MongoDB connection string");
 }
 
-// Connect to MongoDB
 await mongoose.connect(MONGO_URL);
 
 console.info("🚀 Connected to MongoDB");
